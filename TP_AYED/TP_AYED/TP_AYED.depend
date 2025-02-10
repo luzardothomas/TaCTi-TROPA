@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1739213942 source:c:\users\thomas\desktop\tp_ayed\juego\juego.c
+	"juego.h"
+
+1739212358 c:\users\thomas\desktop\tp_ayed\juego\juego.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+
+1739213554 source:c:\users\thomas\desktop\tp_ayed\tp_ayed\main.c
+	"../TDA/lista.h"
+	"../jugadores/jugadores.h"
+	"../juego/juego.h"
+
+1739212813 source:c:\users\thomas\desktop\tp_ayed\jugadores\jugadores.c
+	"jugadores.h"
+
+1739213142 c:\users\thomas\desktop\tp_ayed\jugadores\jugadores.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1739213811 c:\users\thomas\desktop\tp_ayed\tda\lista.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1739213824 source:c:\users\thomas\desktop\tp_ayed\tda\lista.c
+	"lista.h"
+
