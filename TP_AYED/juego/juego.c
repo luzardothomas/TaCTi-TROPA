@@ -226,15 +226,18 @@ int iniciarJuego()  {
 
       if(cpu == ganador) {
         puts("Gano la CPU");
+        system("pause");
         return 2;
       }
       else {
         puts("Gano el jugador");
+        system("pause");
         return 1;
       }
     }
   }
 
   puts("Empate");
+  system("pause");
   return 0;
 }
