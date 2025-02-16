@@ -5,11 +5,16 @@
 #include <string.h>
 #include <curl/curl.h>
 #include"../TDA/lista.h"
-#define NOMBRE_ARCH "configuracion.txt"
+#define CONFIGURACION_ARCH "configuracion.txt"
+#define INFORME_ARCH "informe-juego_"
+#define TXT_ARCH ".txt"
+#define DATA_ARCH "data_post_"
+#define JSON_ARCH ".json"
 #define TAM_NOMBRE 51
 #define TAM_URL 151
 #define TAM_CODGRUP 21
 #define TAM_LINEA 100
+#define TAM_TIEMPO 31
 
 typedef struct {
   char nombre[TAM_NOMBRE];
@@ -33,8 +38,8 @@ void ocuparEspacio(void* a,void *b);
 int compararFlag(const void* a,const void* b);
 void acumularPuntaje(void*a,void*b);
 int compararNombre(const void*a,const void*b);
-int crearArchivoConFechaYHora(char* nombreFinal,char* nombreArch,char* extension);
+void formatearNombreArchivo(char* nombreFinal,char* nombreArch,char* extension);
 void grabarPuntaje(void*a,void*b);
-int jugar();
+int jugar(const tConfig* config);
 
 #endif // JUGADORES_H_INCLUDED

@@ -64,22 +64,22 @@
 	"../TDA/lista.h"
 	<curl/curl.h>
 
-1739660991 source:c:\users\lucianoromano\desktop\facultad\algoritmos\tacti-tropa\tp_ayed\juego\juego.c
+1739737341 source:c:\users\lucianoromano\desktop\facultad\algoritmos\tacti-tropa\tp_ayed\juego\juego.c
 	"juego.h"
 
-1739660991 c:\users\lucianoromano\desktop\facultad\algoritmos\tacti-tropa\tp_ayed\juego\juego.h
+1739737014 c:\users\lucianoromano\desktop\facultad\algoritmos\tacti-tropa\tp_ayed\juego\juego.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
 
-1739673309 source:c:\users\lucianoromano\desktop\facultad\algoritmos\tacti-tropa\tp_ayed\jugadores\jugadores.c
+1739738196 source:c:\users\lucianoromano\desktop\facultad\algoritmos\tacti-tropa\tp_ayed\jugadores\jugadores.c
 	"jugadores.h"
 	"../juego/juego.h"
 	"../TDA/lista.h"
 	<curl/curl.h>
 
-1739655027 c:\users\lucianoromano\desktop\facultad\algoritmos\tacti-tropa\tp_ayed\jugadores\jugadores.h
+1739738153 c:\users\lucianoromano\desktop\facultad\algoritmos\tacti-tropa\tp_ayed\jugadores\jugadores.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -94,7 +94,7 @@
 1739635831 source:c:\users\lucianoromano\desktop\facultad\algoritmos\tacti-tropa\tp_ayed\tda\lista.c
 	"lista.h"
 
-1739673309 source:c:\users\lucianoromano\desktop\facultad\algoritmos\tacti-tropa\tp_ayed\tp_ayed\main.c
+1739738153 source:c:\users\lucianoromano\desktop\facultad\algoritmos\tacti-tropa\tp_ayed\tp_ayed\main.c
 	"../TDA/lista.h"
 	"../jugadores/jugadores.h"
 	"../juego/juego.h"

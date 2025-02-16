@@ -10,12 +10,13 @@
 
 void imprimirOpciones();
 void escanearOpciones(char* dato);
+void imprimirMensaje();
 void imprimirTablero(char tablero[FILAS][COLUMNAS]);
 int verificarGanador(char tablero[FILAS][COLUMNAS]);
 int verificarFilasIA(char tablero[FILAS][COLUMNAS],int car1,int car2);
 int verificarColumnasIA(char tablero[FILAS][COLUMNAS], int car1,int car2);
 int verificarDiagonalesIA(char tablero[FILAS][COLUMNAS], int car1,int car2);
 void ataqueAleatorioIA(char tablero[FILAS][COLUMNAS],int cpu);
-int iniciarJuego();
+int iniciarJuego(const char* nombre);
 
 #endif // JUEGO_H_INCLUDED

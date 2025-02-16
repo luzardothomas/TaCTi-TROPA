@@ -151,7 +151,7 @@ void iniciarGET(const char* urlGET){
     struct curl_slist *headers = NULL;
     headers = curl_slist_append(headers, "X-Secret: FADSFAS");
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-    // Establecer la funciÃ³n de retorno de llamada para manejar la respuesta
+    // Establecer la función de retorno de llamada para manejar la respuesta
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     // Realizar la solicitud HTTP GET
@@ -181,7 +181,7 @@ int iniciarPOST(const char *filename,tLista* pl,accion act,const char* urlPOST){
         fprintf(stderr, "Error al leer el archivo JSON\n");
         return 1;
     }
-
+    system("cls");
     printf("JSON enviado:\n%s\n", json_data);  // Verificar JSON antes de enviarlo
     puts("");
     curl_global_init(CURL_GLOBAL_ALL);
@@ -196,8 +196,8 @@ int iniciarPOST(const char *filename,tLista* pl,accion act,const char* urlPOST){
         curl_easy_setopt(curl, CURLOPT_POST, 1L);
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json_data);
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long)strlen(json_data));  // Asegurar tamaÃ±o correcto
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);  // Desactivar verificaciÃ³n SSL
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long)strlen(json_data));  // Asegurar tamaño correcto
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);  // Desactivar verificación SSL
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
 
         res = curl_easy_perform(curl);
@@ -237,43 +237,29 @@ int compararPuntaje(const void*a,const void*b){
   tPersona* pb = (tPersona*)b;
   return pa->puntuacion - pb->puntuacion;
 }
-int crearArchivoConFechaYHora(char* nombreFinal,char* nombreArch,char* extension){
-  time_t t;
-  struct tm *tm_info;
-  char buffer[51]; // Espacio suficiente para "YYYY-MM-DD-HH-mm"
-  FILE* pf;
-
-  time(&t);               // Obtener el tiempo actual
-  tm_info = localtime(&t); // Convertir a tiempo local
-
-  // Formatear la fecha y hora
-  strftime(buffer, sizeof(buffer), "%Y-%m-%d-%H-%M", tm_info);
-
-  *nombreFinal = '\0';
-
-  strcat(nombreFinal,nombreArch);
-  strcat(nombreFinal,buffer);
-  strcat(nombreFinal,extension);
-
-  pf = fopen(nombreFinal,"wt");
-
-  if(!pf)
-    return 0;
-
-  fclose(pf);
-
-  return 1;
-}
 void grabarPuntaje(void*a,void*b){
   tPersona* pa = (tPersona*)a;
   FILE* pb = (FILE*)b;
   fprintf(pb,"Nombre %s Puntuacion %d\n",pa->nombre,pa->puntuacion);
 }
-int jugar(){
-
-  char nombre[51];
+void formatearNombreArchivo(char* nombreFinal,char* nombreArch,char* extension){
+  time_t t;
+  struct tm *tm_info;
+  char tiempo[TAM_TIEMPO]; // Espacio suficiente para "YYYY-MM-DD-HH-mm"
+  time(&t);               // Obtener el tiempo actual
+  tm_info = localtime(&t); // Convertir a tiempo local
+  // Formatear la fecha y hora
+  strftime(tiempo, sizeof(tiempo), "%Y-%m-%d-%H-%M", tm_info);
+  // Crear el nombre
+  strcpy(nombreFinal,nombreArch);
+  strcat(nombreFinal,tiempo);
+  strcat(nombreFinal,extension);
+}
+int jugar(const tConfig* config){
+  FILE* pInforme;
   tLista lista,listaRandom;
   tPersona dato;
+  char nombreArchivo[TAM_NOMBRE] = {0};
   int cantUsuarios = 0;
   int randomizar;
   int eleccion;
@@ -281,110 +267,86 @@ int jugar(){
   int resultado;
   int partidas = 0;
   int i;
-  tConfig config;
-  FILE* pInforme;
-
-  if(!cargarConfiguracion(NOMBRE_ARCH,&config))
-    return 0;
-
   crearLista(&lista);
   crearLista(&listaRandom);
-
-  printf("Ingrese los nombres [0 para salir]:");
-  scanf("%s",nombre);
-
+  system("cls");
+  printf("Ingrese un nombre [0 para salir]:");
+  scanf("%s",dato.nombre);
   srand(time(NULL));
-
-  while(strcmp(nombre,"0") != 0) {
+  while(strcmp(dato.nombre,"0") != 0){
     cantUsuarios++;
-    strcpy(dato.nombre,nombre);
     dato.puntuacion = 0;
     dato.ocupado = 0;
     insertarAlComienzo(&lista,&dato,sizeof(dato));
 
     fflush(stdin);
     system("cls");
-    printf("Ingrese los nombres [0 para salir]:");
-    scanf("%s",nombre);
+    printf("Ingrese otro nombre [0 para terminar]:");
+    scanf("%s",dato.nombre);
   }
-
-  if(!cantUsuarios)
+  system("cls");
+  if(!cantUsuarios){
+    puts("No ingreso ningun nombre, volvera al menu principal.");
     return 0;
-
-  puts("Van a jugar en este orden:");
-
+  }
+  puts("El orden para los jugadores sera el siguiente:");
   randomizar = cantUsuarios;
-
-  while(cantUsuarios) {
+  while(cantUsuarios){
     eleccion = rand() % randomizar + 1;
 
-    if(devolverElemListaConAccion(&lista,&dato,sizeof(dato),eleccion,NULL,ocuparEspacio,compararFlag)) {
-      // informo el orden de los jugadores
-      printf("%d- Nombre: %s\n",partidas,dato.nombre);
+    if(devolverElemListaConAccion(&lista,&dato,sizeof(dato),eleccion,NULL,ocuparEspacio,compararFlag)){
+      printf("%d- Nombre: %s\n",partidas+1,dato.nombre);
       partidas++;
       cantUsuarios--;
       insertarAlFinal(&listaRandom,&dato,sizeof(dato));
     }
   }
+  system("pause");
+  system("cls");
+  partidas*=config->cantPartidas;
 
-  partidas*=config.cantPartidas;
-  eleccion = 1;
-
-  crearArchivoConFechaYHora(nombre,"informe-juego_",".txt");
-  pInforme = fopen(nombre,"wt");
-
+  formatearNombreArchivo(nombreArchivo,INFORME_ARCH,TXT_ARCH);
+  pInforme = fopen(nombreArchivo,"wt");
   if(!pInforme)
     return 0;
-
-
-  while(partidas) {
-
+  eleccion = 1;
+  while(partidas){
     puntaje = 0;
-
     devolverElemLista(&listaRandom,&dato,sizeof(dato),eleccion);
-
     fprintf(pInforme,"Partida de %s\n",dato.nombre);
-
-    for(i = 0 ; i < config.cantPartidas ; i++) {
-      resultado = iniciarJuego();
-
-      if(resultado == 0) {
-        puntaje += 2;
-        fprintf(pInforme,"%d- Empato +2\n",i+1);
+    for(i = 0 ; i < config->cantPartidas ; i++){
+      resultado = iniciarJuego(dato.nombre);
+      switch(resultado){
+        case 0:
+          puntaje += 2;
+          fprintf(pInforme, "%d- Empato +2\n", i + 1);
+          break;
+        case 1:
+          puntaje += 3;
+          fprintf(pInforme, "%d- Gano +3\n", i + 1);
+          break;
+        default:
+          puntaje -= 1;
+          fprintf(pInforme, "%d- Perdio -1\n", i + 1);
+          break;
       }
-      else if(resultado == 1) {
-        puntaje += 3;
-        fprintf(pInforme,"%d- Gano +3\n",i+1);
-      }
-      else {
-        puntaje -= 1;
-        fprintf(pInforme,"%d- Perdio -1\n",i+1);
-      }
-
     }
-
-    resultado++;
-
     fprintf(pInforme,"Puntaje total: %d\n",puntaje);
     fprintf(pInforme,"==============================\n");
-
     eleccion++;
     buscarYAcumular(&listaRandom,&dato,&puntaje,acumularPuntaje,compararNombre);
-    partidas -= config.cantPartidas;
+    partidas -= config->cantPartidas;
   }
 
-  crearArchivoConFechaYHora(nombre,"data_post_",".json");
-  iniciarPOST(nombre,&listaRandom,grabarArchivoJSON,config.url);
+  formatearNombreArchivo(nombreArchivo,DATA_ARCH,JSON_ARCH);
+  iniciarPOST(nombreArchivo,&listaRandom,grabarArchivoJSON,config->url);
 
   fprintf(pInforme,"##############################\n");
   fprintf(pInforme,"MAYOR/MAYORES PUNTAJES\n");
   buscarMayorEnLista(&listaRandom,compararPuntaje);
   recorrerLista(&listaRandom,pInforme,grabarPuntaje);
-
   vaciarLista(&lista);
   vaciarLista(&listaRandom);
   fclose(pInforme);
-
   return 0;
-
 }

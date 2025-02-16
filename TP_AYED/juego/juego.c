@@ -6,12 +6,14 @@ void imprimirOpciones(){
   puts("[C] SALIR");
   printf("OPCION: ");
 }
-
 void escanearOpciones(char* dato){
   scanf("%c", dato);
   *dato = A_MAYUS(*dato);
 }
-
+void imprimirMensaje(){
+  puts("============== GRACIAS POR JUGAR ==============");
+  puts("-----------------------------------------------");
+}
 void imprimirTablero(char tablero[FILAS][COLUMNAS]){
   puts("");
   for(int i = 0; i < FILAS; i++) {
@@ -184,7 +186,7 @@ void IA(char tablero[FILAS][COLUMNAS],int cpu)  {
   ataqueAleatorioIA(tablero, cpu);
 }
 
-int iniciarJuego()  {
+int  iniciarJuego(const char* nombre)  {
   char tablero[FILAS][COLUMNAS] = {
     {'1', '2', '3'},
     {'4', '5', '6'},
@@ -198,7 +200,8 @@ int iniciarJuego()  {
   cpu = (rand() % 2) + 1;
   turno = cpu == 2;
   jugador = (turno == 1) ? 'X' : 'O';
-
+  system("cls");
+  printf("Es el turno de %s",nombre);
   if(turno)
     imprimirTablero(tablero);
 
@@ -206,7 +209,7 @@ int iniciarJuego()  {
     if(turno) {
 
       do  {
-        printf("Le toca ser '%c' \nIngrese un numero: ",jugador);
+        printf("Usted juega con: '%c' \nIngrese posicion: ",jugador);
         scanf("%d", &eleccion);
         fila = --eleccion / FILAS;
         columna = eleccion % COLUMNAS;
@@ -229,6 +232,7 @@ int iniciarJuego()  {
     }
 
     system("cls");
+    printf("Es el turno de %s",nombre);
     imprimirTablero(tablero);
     movimientos++;
 

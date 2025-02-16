@@ -8,7 +8,7 @@ int main(){
   tConfig config;
   char urlGET[150] = {0};
 
-  if(!cargarConfiguracion(NOMBRE_ARCH,&config))
+  if(!cargarConfiguracion(CONFIGURACION_ARCH,&config))
     return 0;
 
   generarUrl(urlGET,&config);
@@ -19,7 +19,7 @@ int main(){
   while(opcion != 'C'){
 
     if(opcion == 'A'){
-      jugar();
+      jugar(&config);
       system("pause");
     }
     else if(opcion == 'B'){
@@ -27,6 +27,7 @@ int main(){
       system("pause");
     }
     else{
+      system("cls");
       puts("Opcion invalida, debera volver a ingresar.");
       system("pause");
     }
@@ -36,5 +37,7 @@ int main(){
     imprimirOpciones();
     escanearOpciones(&opcion);
   }
+  system("cls");
+  imprimirMensaje();
   return 0;
 }
