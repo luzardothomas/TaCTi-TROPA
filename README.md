@@ -23,15 +23,4 @@ El juego toma la configuración desde un archivo txt (TP_AYED/TP_AYED/configurac
 
 Se puede cambiar manualmente el número de “Cantidad de partidas” para definir cuantas partidas se juegan por jugador.
 
-# LOTES DE PRUEBA
-
-| N°  | Descripción | Salida esperada | Salida obtenida | Captura |
-|----|-------------|----------------|----------------|---------|
-| 1  | Se quiere probar qué pasaría si elegimos dos casilleros consecutivos alineados, para ganar con el tercer casillero alienado. | Se espera que la CPU elija el tercer casillero alineado para bloquear la línea. | La CPU en su segundo turno eligió el casillero para bloquear la línea satisfactoriamente. | ![image](https://github.com/user-attachments/assets/b03dbf4f-82c0-4d4d-9824-20f200b39518)|
-| 2  | Se quiere probar qué pasaría si le dejamos a la CPU la posibilidad de ganar, eligiendo casilleros no alineados. | Se espera que la CPU gane la ronda. | La CPU eligió los casilleros 2, 5 y 8, formando la línea. | ![image](https://github.com/user-attachments/assets/94cf6ccf-c6ff-4ca8-b328-6d068239780a)|
-| 3  | Se quiere probar qué pasaría si elegimos un número fuera del rango 1-9. | Se espera que el programa muestre el error y te vuelva a pedir el número dentro del rango. | El programa notificó el error y que debemos volver a ingresar un número dentro del rango. | ![image](https://github.com/user-attachments/assets/605e43c3-857a-49c6-9d61-263064eba151)|
-| 4  | Se quiere probar qué funcione la posibilidad de que la CPU inicie la ronda y elija un casillero al azar. | Se espera que la CPU comience la ronda y elija un casillero al azar. | A la CPU le tocó ser ‘X’ y arrancó la ronda correctamente eligiendo el casillero 6. | ![image](https://github.com/user-attachments/assets/31f058a1-85cb-4564-9db6-7956c170535e)|
-| 5  | Se quiere probar qué pasaría si elegimos un casillero ya seleccionado. | Se espera que el programa muestre el error y te vuelva a pedir el número dentro del rango. | El programa notificó que el casillero está ocupado y que debemos volver a ingresar un número dentro del rango. | ![image](https://github.com/user-attachments/assets/ee96981b-0f85-4956-bb06-63b14999220a)|
-| 6  | Se quiere probar qué pasaría si empatamos la partida, es decir, ninguno consigue formar la línea. | Se espera que el programa determine que la ronda terminó empatada. | El programa notificó que la partida finalizó en empate. | ![image](https://github.com/user-attachments/assets/a2daeac6-2f9a-44fa-b87d-01f5d1ef23f8)|
-| 7  | Se quiere probar qué pasaría si ganamos la ronda. | Se espera que el programa determine que la ronda terminó en victoria para el usuario. | El programa notificó que la partida finalizó en empate. | ![image](https://github.com/user-attachments/assets/17b6fbb2-3aa5-46dd-86e8-23eb0b40e745)|
-| 8  | Se quiere probar qué pasaría si jugamos a bloquearle las opciones a la CPU. | Se espera que la CPU juegue de manera inteligente y busque la posibilidad de ganar. | La CPU arranco con el 6, se bloqueó su juego eligiendo el 9, la CPU optó por continuar con el 7, se bloqueó su juego con el 4, en la siguiente ronda la CPU eligió el 3 y el usuario el 2, finalmente la CPU analizó que con el 5 formaba la línea y lo escogió, ganó la CPU. | ![image](https://github.com/user-attachments/assets/914f48c0-6d91-405f-84d6-e78eaa469152)|
+[Ir a Lotes de prueba](LOTES-DE-PRUEBA.md)
