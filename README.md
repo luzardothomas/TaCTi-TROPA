@@ -17,7 +17,7 @@ El usuario y la máquina juegan por turnos en un tablero de 3x3. Para ganar, un 
 
 **Configuración del juego**
 
-El juego toma la configuración desde un archivo txt (TP_AYED/TP_AYED/configuracion.txt) con el siguiente formato:
+El juego toma la configuración desde un archivo txt llamado [configuracion](TP_AYED/TP_AYED/configuracion.txt) con el siguiente formato:
 
 ![image](https://github.com/user-attachments/assets/6ff90c3d-afd8-4a3f-a658-905b80a8c07f)
 
