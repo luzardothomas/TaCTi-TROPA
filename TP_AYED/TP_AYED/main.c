@@ -1,56 +1,40 @@
 #include "../TDA/lista.h"
 #include "../jugadores/jugadores.h"
 #include "../juego/juego.h"
-#define A_MINUS(X) (((X) >= 'A' && (X) <= 'Z') ? (X) : ((X) - ('a'-'A')))
 
-int main() {
+
+int main(){
   char opcion;
   tConfig config;
   char urlGET[150] = {0};
 
-  if(!devolverConfiguracion(NOMBRE_ARCH,&config))
+  if(!cargarConfiguracion(NOMBRE_ARCH,&config))
     return 0;
 
-  strcat(urlGET,config.url);
-  strcat(urlGET,"/");
-  strcat(urlGET,config.codGrup + 1);
-  *(urlGET + strlen(urlGET) - 1) = '\0';
+  generarUrl(urlGET,&config);
 
-  printf("A- JUGAR\n");
-  printf("B- RANKING\n");
-  printf("C SALIR\n");
-  printf("OPCION: ");
-  scanf("%c", &opcion);
+  imprimirOpciones();
+  escanearOpciones(&opcion);
 
-  opcion = A_MINUS(opcion);
+  while(opcion != 'C'){
 
-  while(opcion != 'C') {
-
-    if(opcion == 'A') {
+    if(opcion == 'A'){
       jugar();
       system("pause");
     }
-    else if(opcion == 'B') {
+    else if(opcion == 'B'){
       iniciarGET(urlGET);
       system("pause");
     }
-    else if(opcion == 'C') {
-      return 1;
-    }
-    else {
-      puts("Opcion invalida");
+    else{
+      puts("Opcion invalida, debera volver a ingresar.");
       system("pause");
     }
 
     fflush(stdin);
     system("cls");
-    printf("A- JUGAR\n");
-    printf("B- RANKING\n");
-    printf("C SALIR\n");
-    printf("OPCION: ");
-    scanf("%c", &opcion);
-    opcion = A_MINUS(opcion);
+    imprimirOpciones();
+    escanearOpciones(&opcion);
   }
-
   return 0;
 }

@@ -1,6 +1,18 @@
 #include "juego.h"
 
-void imprimirTablero(char tablero[FILAS][COLUMNAS]) {
+void imprimirOpciones(){
+  puts("[A] JUGAR");
+  puts("[B] RANKING");
+  puts("[C] SALIR");
+  printf("OPCION: ");
+}
+
+void escanearOpciones(char* dato){
+  scanf("%c", dato);
+  *dato = A_MAYUS(*dato);
+}
+
+void imprimirTablero(char tablero[FILAS][COLUMNAS]){
   puts("");
   for(int i = 0; i < FILAS; i++) {
     for(int j = 0; j < COLUMNAS; j++)
@@ -9,7 +21,7 @@ void imprimirTablero(char tablero[FILAS][COLUMNAS]) {
   }
 }
 
-int verificarGanador(char tablero[FILAS][COLUMNAS]) {
+int verificarGanador(char tablero[FILAS][COLUMNAS]){
   int i;
 
   // Verificar filas
@@ -39,7 +51,7 @@ int verificarGanador(char tablero[FILAS][COLUMNAS]) {
   return 0;
 }
 
-int verificarFilasIA(char tablero[FILAS][COLUMNAS],int car1,int car2) {
+int verificarFilasIA(char tablero[FILAS][COLUMNAS],int car1,int car2){
   int i;
 
   for(i = 0; i < 3; i++) {

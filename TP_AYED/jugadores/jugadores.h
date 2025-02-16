@@ -6,22 +6,27 @@
 #include <curl/curl.h>
 #include"../TDA/lista.h"
 #define NOMBRE_ARCH "configuracion.txt"
+#define TAM_NOMBRE 51
+#define TAM_URL 151
+#define TAM_CODGRUP 21
+#define TAM_LINEA 100
 
 typedef struct {
-  char nombre[51];
+  char nombre[TAM_NOMBRE];
   int puntuacion;
   int ocupado;
 }tPersona;
 
 typedef struct {
-  char url[151];
-  char codGrup[21];
+  char url[TAM_URL];
+  char codGrup[TAM_CODGRUP];
   int cantPartidas;
 }tConfig;
 
 int create_json_file(const char *filename,tLista* pl,accion act);
 void grabarArchivoJSON(void* a,void* b);
-int devolverConfiguracion(const char *filename,void* dato);
+int cargarConfiguracion(const char *filename,void* dato);
+void generarUrl(char* cadena,void* dato);
 size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
 void iniciarGET(const char* urlGET);
 void ocuparEspacio(void* a,void *b);

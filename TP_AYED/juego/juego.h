@@ -2,11 +2,14 @@
 #define JUEGO_H_INCLUDED
 #define FILAS 3
 #define COLUMNAS 3
+#define A_MAYUS(X) (((X) >= 'A' && (X) <= 'Z') ? (X) : ((X) - ('a'-'A')))
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
+void imprimirOpciones();
+void escanearOpciones(char* dato);
 void imprimirTablero(char tablero[FILAS][COLUMNAS]);
 int verificarGanador(char tablero[FILAS][COLUMNAS]);
 int verificarFilasIA(char tablero[FILAS][COLUMNAS],int car1,int car2);

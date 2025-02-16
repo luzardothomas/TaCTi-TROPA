@@ -3,7 +3,7 @@
 #include "../TDA/lista.h"
 #include <curl/curl.h>
 
-int create_json_file(const char *filename,tLista* pl,accion act) {
+int create_json_file(const char *filename,tLista* pl,accion act){
     FILE *file = fopen(filename, "wt");
     if (!file) {
         perror("Error al crear el archivo");
@@ -33,15 +33,13 @@ int create_json_file(const char *filename,tLista* pl,accion act) {
     fclose(file);
     return 1;
 }
-
-void grabarArchivoJSON(void* a,void* b) {
+void grabarArchivoJSON(void* a,void* b){
   tPersona* pa = (tPersona*)a;
   FILE* pb = (FILE*)b;
   fprintf(pb, "    {\"nombre\": \"%s\",\n",pa->nombre);
   fprintf(pb, "    \"puntos\": %d}",pa->puntuacion);
 }
-
-char *read_file(const char *filename) {
+char *read_file(const char *filename){
     char linea[100] = {0};
 
     char* content;
@@ -69,57 +67,53 @@ char *read_file(const char *filename) {
     fclose(file);
     return content;
 }
-int devolverConfiguracion(const char *filename,void* dato) {
-  char linea[100];
+int cargarConfiguracion(const char *filename,void* dato){
+  char linea[TAM_LINEA];
   char* aux;
   tConfig config;
   FILE* pf;
   pf = fopen(filename,"rt");
-
   if(!pf)
     return 0;
-
-  fgets(linea,100,pf);
-
+  fgets(linea,TAM_LINEA,pf);
+  aux = strchr(linea,'\n');
+  *aux='\0';
   aux = strchr(linea,'|');
-  strcpy(config.codGrup,aux+1);
+  strcpy(config.codGrup,aux+2);
   *(aux-1) = '\0';
-
   strcpy(config.url,linea);
-
-  fgets(linea,100,pf);
-
+  fgets(linea,TAM_LINEA,pf);
   sscanf(linea,"%d",&config.cantPartidas);
-
   memcpy(dato,&config,sizeof(tConfig));
+  fclose(pf);
   return 1;
 }
-size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)  {
+void generarUrl(char* cadena,void* dato){
+    strcat(cadena,((tConfig*)dato)->url);
+    strcat(cadena,"/");
+    strcat(cadena,((tConfig*)dato)->codGrup);
+}
+size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp){
   size_t realsize = size * nmemb;
   char* linea = (char *)contents;
   char* aux;
   char nombre[51];
-  char chequearVacio[3] = {0};
   int puntaje;
   int dia,mes,anio,hs,min,seg;
-
-  memcpy(chequearVacio,linea,2);
-
-  if(strcmp(chequearVacio,"[]") == 0) {
+  if(strstr(linea,"[]")){
     printf("Aun no ha jugado nadie\n");
     return 0;
   }
-
+  system("cls");
   puts("=================== RANKING ===================");
   puts("-----------------------------------------------");
-
-  while(aux) {
+  while(aux){
 
     aux = strchr(linea,',');
 
     *(aux-1) = '\0';
-    linea = strrchr(linea,':');
-    sscanf(linea + 2,"%s",nombre);
+    linea = strchr(linea,':');
+    strcpy(nombre,linea + 2);
     printf("NOMBRE JUGADOR: %s | ",nombre);
     aux = strchr(aux,':');
 
@@ -133,23 +127,18 @@ size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)  {
 
     printf("-----------------------------------------------");
 
-
-    aux++;
     aux = strchr(aux,',');
-
     if(aux) {
       aux++;
       linea = aux;
     }
-
     puts("");
   }
-
-
-
   return realsize;
 }
 void iniciarGET(const char* urlGET){
+  system("cls");
+  puts("Cargando...");
   CURL *curl;
   CURLcode res;
   // Inicializar el manejo de curl
@@ -179,7 +168,7 @@ void iniciarGET(const char* urlGET){
   }
 
 }
-int iniciarPOST(const char *filename,tLista* pl,accion act,const char* urlPOST) {
+int iniciarPOST(const char *filename,tLista* pl,accion act,const char* urlPOST){
     CURL *curl;
     CURLcode res;
     create_json_file(filename,pl,act);
@@ -225,30 +214,30 @@ int iniciarPOST(const char *filename,tLista* pl,accion act,const char* urlPOST) 
 
     return 0;
 }
-void ocuparEspacio(void* a,void *b) {
+void ocuparEspacio(void* a,void *b){
   tPersona* pa = (tPersona*)a;
   pa->ocupado = 1;
 }
-int compararFlag(const void* a,const void* b) {
+int compararFlag(const void* a,const void* b){
   tPersona* pa = (tPersona*)a;
   return pa->ocupado == 1;
 }
-void acumularPuntaje(void*a,void*b) {
+void acumularPuntaje(void*a,void*b){
   tPersona* pa = (tPersona*)a;
   int* pb = (int*)b;
   pa->puntuacion += *pb;
 }
-int compararNombre(const void*a,const void*b) {
+int compararNombre(const void*a,const void*b){
   tPersona* pa = (tPersona*)a;
   tPersona* pb = (tPersona*)b;
   return strcmp(pa->nombre,pb->nombre);
 }
-int compararPuntaje(const void*a,const void*b) {
+int compararPuntaje(const void*a,const void*b){
   tPersona* pa = (tPersona*)a;
   tPersona* pb = (tPersona*)b;
   return pa->puntuacion - pb->puntuacion;
 }
-int crearArchivoConFechaYHora(char* nombreFinal,char* nombreArch,char* extension) {
+int crearArchivoConFechaYHora(char* nombreFinal,char* nombreArch,char* extension){
   time_t t;
   struct tm *tm_info;
   char buffer[51]; // Espacio suficiente para "YYYY-MM-DD-HH-mm"
@@ -275,12 +264,12 @@ int crearArchivoConFechaYHora(char* nombreFinal,char* nombreArch,char* extension
 
   return 1;
 }
-void grabarPuntaje(void*a,void*b) {
+void grabarPuntaje(void*a,void*b){
   tPersona* pa = (tPersona*)a;
   FILE* pb = (FILE*)b;
   fprintf(pb,"Nombre %s Puntuacion %d\n",pa->nombre,pa->puntuacion);
 }
-int jugar() {
+int jugar(){
 
   char nombre[51];
   tLista lista,listaRandom;
@@ -295,7 +284,7 @@ int jugar() {
   tConfig config;
   FILE* pInforme;
 
-  if(!devolverConfiguracion(NOMBRE_ARCH,&config))
+  if(!cargarConfiguracion(NOMBRE_ARCH,&config))
     return 0;
 
   crearLista(&lista);
